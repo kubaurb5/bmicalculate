@@ -49,6 +49,33 @@ public class MainActivity extends AppCompatActivity {
 
         try{
             double weight = Double.parseDouble(weightStr);
+            double heightCm = Double.parseDouble(heightStr);
+
+            BmiResult score = calculate(weight,heightCm);
+            tvResult.setText(score.toString());
+
+        } catch (NumberFormatException e) {
+            tvResult.setText("Dane powinny być liczbami!");
         }
+    }
+
+    private BmiResult calculate(double weight, double heightCm){
+        double heightMeters = heightCm / 100;
+        double score = weight / heightMeters / heightMeters;
+
+        BmiNote status;
+        if (score < 18.5){
+            status = BmiNote.NIEDOWAGA;
+        } else if (score < 25){
+            status = BmiNote.NORMA;
+        }else if (score < 30){
+            status = BmiNote.NADWAGA;
+        }else {
+            status = BmiNote.OTYŁOŚĆ;
+        }
+
+
+        return new BmiResult(score,status);
+
     }
 }
